@@ -1,0 +1,25 @@
+def reverseAndSortArray(char_array):
+    """
+    Reverses the order of elements in the array and sorts them alphabetically.
+    
+    Parameters:
+    char_array (list): A list of characters.
+    
+    Returns:
+    list: A new list with elements reversed and then sorted alphabetically.
+    """
+    if not isinstance(char_array, list) or not all(isinstance(c, str) and len(c) == 1 for c in char_array):
+        raise ValueError("Input must be a list of single-character strings.")
+    
+    # Step 1: Reverse the array
+    reversed_array = char_array[::-1]
+    
+    # Step 2: Sort the reversed array alphabetically
+    sorted_array = sorted(reversed_array)
+    
+    return sorted_array
+
+# Example usage:
+example_array = ['z', 'b', 'a', 'd', 'c']
+result = reverseAndSortArray(example_array)
+print(result)  # Output: ['a', 'b', 'c', 'd', 'z']
