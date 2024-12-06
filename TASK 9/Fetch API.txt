@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch API Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .data-container {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fetch API Example</h1>
+  <button onclick="fetchData()">Fetch Data</button>
+  <div id="data-container" class="data-container">
+    <!-- Data will be displayed here -->
+  </div>
+
+  <script>
+    async function fetchData() {
+      const url = 'https://jsonplaceholder.typicode.com/posts'; // Example API
+      const dataContainer = document.getElementById('data-container');
+      
+      try {
+        // Make the GET request
+        const response = await fetch(url);
+        
+        // Check if the response is ok
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        // Parse the JSON response
+        const data = await response.json();
+        
+        // Clear the container and display the data
+        dataContainer.innerHTML = '';
+        data.forEach(item => {
+          const div = document.createElement('div');
+          div.innerHTML = `<strong>Title:</strong> ${item.title}<br><strong>Body:</strong> ${item.body}`;
+          div.style.marginBottom = '15px';
+          div.style.padding = '10px';
+          div.style.borderBottom = '1px solid #ddd';
+          dataContainer.appendChild(div);
+        });
+      } catch (error) {
+        dataContainer.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
