@@ -1,0 +1,26 @@
+function formatString(input) {
+    if (typeof input !== "string") {
+        return "Input must be a string.";
+    }
+    
+    // Convert the entire string to uppercase
+    const upperCase = input.toUpperCase();
+
+    // Convert the entire string to lowercase
+    const lowerCase = input.toLowerCase();
+
+    // Extract a substring from index 2 to 5
+    const substring = input.substring(2, 6); // Note: `substring` is exclusive of the second index
+
+    return {
+        upperCase: upperCase,
+        lowerCase: lowerCase,
+        substring: substring
+    };
+}
+
+// Example usage:
+const result = formatString("HelloWorld");
+console.log(result);
+// Output:
+// { upperCase: 'HELLOWORLD', lowerCase: 'helloworld', substring: 'lloW' }
