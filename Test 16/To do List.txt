@@ -1,0 +1,87 @@
+import { Button } from "@/components/ui/button";
+
+// Create Context
+const TodoContext = createContext();
+
+// Provider Component
+export const TodoProvider = ({ children }) => {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
+  };
+
+  const removeTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+
+  return (
+    <TodoContext.Provider value={{ tasks, addTask, removeTask }}>
+      {children}
+    </TodoContext.Provider>
+  );
+};
+
+// Custom Hook
+export const useTodo = () => {
+  return useContext(TodoContext);
+};
+
+// Task List Component
+const TaskList = () => {
+  const { tasks, removeTask } = useTodo();
+  return (
+    <div className="p-4">
+      <h2 className="text-xl font-bold">Tasks</h2>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index} className="flex justify-between p-2 border-b">
+            {task}
+            <Button onClick={() => removeTask(index)}>Remove</Button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+// Task Input Component
+const TaskInput = () => {
+  const { addTask } = useTodo();
+  const [task, setTask] = useState("");
+
+  const handleAddTask = () => {
+    if (task.trim()) {
+      addTask(task);
+      setTask("");
+    }
+  };
+
+  return (
+    <div className="p-4">
+      <input
+        type="text"
+        className="border p-2 w-full"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        placeholder="Enter task"
+      />
+      <Button onClick={handleAddTask} className="mt-2">Add Task</Button>
+    </div>
+  );
+};
+
+// Main App Component
+const App = () => {
+  return (
+    <TodoProvider>
+      <div className="max-w-md mx-auto p-4 border rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-center">To-Do List</h1>
+        <TaskInput />
+        <TaskList />
+      </div>
+    </TodoProvider>
+  );
+};
+
+export default App;
